@@ -42,7 +42,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Install application template and packages
 # Yii 2.0 application and its extensions can be used directly from the image or serve as local cache
 RUN /usr/local/bin/composer create-project --prefer-dist \
-    yiisoft/yii2-app-basic:2.* \
+    yiisoft/yii2-app-advanced:2.* \
     /app
 
 # Configure nginx

@@ -26,8 +26,10 @@ touch /var/log/nginx/access.log \
 # adjust folder permissions for docker volume usage
 find /app/runtime -type d -print0 | xargs -0 chmod 777
 find /app/runtime -type f -print0 | xargs -0 chmod 666
-find /app/web/assets -type d -print0 | xargs -0 chmod 777
-find /app/web/assets -type f -print0 | xargs -0 chmod 666
+find /app/frontend/web/assets -type d -print0 | xargs -0 chmod 777
+find /app/frontend/web/assets -type f -print0 | xargs -0 chmod 666
+find /app/backend/web/assets -type d -print0 | xargs -0 chmod 777
+find /app/backend/web/assets -type f -print0 | xargs -0 chmod 666
 
 # start PHP and nginx
 service php5-fpm start
