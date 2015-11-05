@@ -8,6 +8,8 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup
 # we don't need and apt cache in a container
 RUN echo "Acquire::http {No-Cache=True;};" > /etc/apt/apt.conf.d/no-cache
+RUN sed -i 's/httpredir.debian.org/mirrors.163.com/g' /etc/apt/sources.list
+RUN sed  -i 's/security.debian.org/mirrors.163.com\/debian-security/g' /etc/apt/sources.list
 
 # Update and install system base packages
 ENV IMAGE_PRODUCTION_APT_GET_DATE 2015-01-07-22-44
@@ -32,12 +34,16 @@ RUN apt-get update && \
 # Initialize application
 WORKDIR /app
 
+#change php.ini
+RUN sed -i.bak 's/zlib.output_compression = Off/zlib.output_compression = On/' /etc/php5/fpm/php.ini
+RUN sed -i.bak 's/;zlib.output_compression_level = -1/zlib.output_compression_level = 5/' /etc/php5/fpm/php.ini
+
 # Install composer && global asset plugin (Yii 2.0 requirement)
 ENV COMPOSER_HOME /root/.composer
 ENV PATH /root/.composer/vendor/bin:$PATH
 ADD config.json /root/.composer/config.json
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=1.0.0-alpha9 && \
-    /usr/local/bin/composer global require "fxp/composer-asset-plugin:1.0.0-beta4"
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer  && \
+    /usr/local/bin/composer global require "fxp/composer-asset-plugin:~1.0"
 
 # Install application template and packages
 # Yii 2.0 application and its extensions can be used directly from the image or serve as local cache
