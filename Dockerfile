@@ -11,6 +11,7 @@ RUN echo "Acquire::http {No-Cache=True;};" > /etc/apt/apt.conf.d/no-cache
 RUN sed -i 's/httpredir.debian.org/mirrors.163.com/g' /etc/apt/sources.list
 RUN sed  -i 's/security.debian.org/mirrors.163.com\/debian-security/g' /etc/apt/sources.list
 
+RUN echo "export TERM=xterm" >> /root/.bashrc
 # Update and install system base packages
 ENV IMAGE_PRODUCTION_APT_GET_DATE 2015-01-07-22-44
 RUN apt-get update && \
@@ -28,6 +29,7 @@ RUN apt-get update && \
         php5-mcrypt \
         php5-mysql \
         php5-xsl && \
+        nano && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
