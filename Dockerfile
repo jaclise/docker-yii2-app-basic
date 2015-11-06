@@ -29,9 +29,10 @@ RUN apt-get update && \
         php5-mcrypt \
         php5-mysql \
         php5-xsl && \
-        nano && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN curl -0 http://ftp.cn.debian.org/debian/pool/main/n/nano/nano_2.2.6-3_amd64.deb >/tmp/nano_2.2.6-3_amd64.deb &&dpkg -i /tmp/nano_2.2.6-3_amd64.deb
 
 # Initialize application
 WORKDIR /app
